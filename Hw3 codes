@@ -1,0 +1,22 @@
+wx = 0.7; wy = 0.92;
+dkx = 1/wx;
+dky = 1/wy;
+sampling_rate_const = .5; 
+dkx = dkx*sampling_rate_const;
+dky = dky*sampling_rate_const;
+[kx, ky] = meshgrid((-128:127)*dkx, (-128:127)*dky );
+%[kx, ky] = meshgrid((-16:15)*dkx, (-16:15)*dky );
+s = sheppLoganFourierT(kx,ky);
+% figure
+subplot(2,1,1)
+imagesc(log(abs(s)));
+axis equal
+% figure
+subplot(2,1,2)
+is = ift(s);
+imagesc(abs(is))
+axis equal
+    
+function im = ift(dat)
+im = fftshift(ifft2(fftshift(dat)));
+end
